@@ -1,0 +1,72 @@
+header {
+	display: flex;
+	background: rgb(255, 255, 255);
+}
+
+body {
+	background: rgb(255, 255, 255);
+	background-repeat: repeat;
+	background-position: center;
+	font-family: "Oswald", serif;
+	font-optical-sizing: auto;
+	font-weight: 200;
+	font-style: normal;
+}
+.post-info {
+	color: grey;
+}
+.post {
+	display: flex;
+	background: rgb(225,225,225);
+	border: 2px solid black;
+	border-radius: 2px;
+	padding: 5px 20px 10px 10px;
+}
+.upper {
+	color: blue;
+}
+.upper2 {
+	color: grey;
+}
+.C1 {
+	display: flex;
+}
+.rer {
+	color: red;
+	padding: 2 2px;
+	background: rgb(225,225,225);
+}
+.blob{
+	padding: 2 2px;
+	background: rgb(225,225,225);
+}
+.dot{
+	border-bottom: 1px dotted;
+    text-decoration: none;
+    display: inline-block;
+    height: 1em;
+    line-height: 1.05em;
+}
+.coder{
+	color: red;
+	background: rgb(180,180,180);
+}
+.back2{
+	background: rgb(150,150,150);
+}
+.tag{
+	color: blue;
+	background: rgb(180,180,180);
+}
+.butor{
+    width: 125;
+    height: 75;
+    font-size: 50;
+    background-color: #000000;
+    color: white;
+}
+
+.Rtext{
+    text-align: center;
+    font-size: 50;
+}
