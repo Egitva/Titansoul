@@ -15,3 +15,9 @@ function getRandomPhrase() {
     pass = phrases[randomIndex];
     document.getElementById('out').innerHTML='<p>'+pass+'</p>';
 }
+
+document.getElementById('menu').onclick = Visibility;
+
+function Visibility() {
+    document.getElementById('sidenav').classList.add('hidden');
+}
