@@ -1,8 +1,14 @@
 header {
 	display: flex;
-	background: rgb(255, 255, 255);
+	background-color: white;
 }
-
+head {
+    background-image: url(images/Hback.jpg);
+}
+.alignleft{
+    margin-top: -50;
+    margin-left: -25;
+}
 body {
 	background: rgb(255, 255, 255);
 	background-repeat: repeat;
@@ -11,6 +17,12 @@ body {
 	font-optical-sizing: auto;
 	font-weight: 200;
 	font-style: normal;
+}
+.LBack {
+    height: 600px;
+    position: absolute;
+    right: 30%;
+    background-image: url(images/Hback.jpg);
 }
 .post-info {
 	color: grey;

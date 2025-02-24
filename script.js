@@ -19,12 +19,24 @@ const Holden = [
     "На момент 3 главы, Холдену 102 года",
     "Холден не стареет",
     "Рост Холдена - 282см",
+    "Холден - Лучший друг Шенми"
+]
+const Shenmi = [
+    "Шенми - лучший друг Холдена",
+    "Шенми родился в семье тёмных магов",
+    "Шенми является призмой",
+    "Цвет души Шенми - белый"
+]
+const Loyd = [
+    "Лойд - это брат Кейкена",
+    "Цвет души Лойда - Зелёный",
+    "Лойда назначили судьёй Гелу из-за сильного чувства справедливости, а не его способностей или силы"
 ]
 document.getElementById('generator').onclick = getRandomPhrase;
 
 function getRandomPhrase() {
     var pass =''
-    const randomChar = Math.floor(Math.random() * 4);
+    const randomChar = Math.floor(Math.random() * 6);
     if (randomChar == 0) {
         const randomIndex = Math.floor(Math.random() * Nelo.length);
         pass = Nelo[randomIndex];
@@ -47,6 +59,18 @@ function getRandomPhrase() {
         const randomIndex = Math.floor(Math.random() * Holden.length);
         pass = Holden[randomIndex];
         img.src = "images/Chars/Holden.jpg";
+        document.getElementById('out').innerHTML='<p>'+pass+'</p>';
+    }
+    else if (randomChar == 4) {
+        const randomIndex = Math.floor(Math.random() * Shenmi.length);
+        pass = Shenmi[randomIndex];
+        img.src = "images/Chars/Shenmi.jpg";
+        document.getElementById('out').innerHTML='<p>'+pass+'</p>';
+    }
+    else if (randomChar == 5) {
+        const randomIndex = Math.floor(Math.random() * Loyd.length);
+        pass = Loyd[randomIndex];
+        img.src = "images/Chars/Loyd.jpg";
         document.getElementById('out').innerHTML='<p>'+pass+'</p>';
     }
 }
