@@ -1,5 +1,3 @@
-const userGuess = document.getElementById("guessInput").value;
-const feedbackElement = document.getElementById("feedback");
 const Нело = [
     "Муж",
     "Мафия",
@@ -9,7 +7,7 @@ const Нело = [
     "184",
     "Неизвестно",
     "О.М.П и Н.С",
-]
+];
 const Кейкен = [
     "Муж",
     "Мафия",
@@ -19,20 +17,18 @@ const Кейкен = [
     "2207",
     "Гелу",
     "Понятие Звёзд",
-]
-function penis() {
-    let randomIndex = Math.floor(Math.random() * 2); 
-    let b0; 
-    if (randomIndex === 0) {
-        b0 = Нело;
-    } else if (randomIndex === 1) {
-        b0 = Кейкен;
-    }
-}
+];
+
 document.getElementById("submitGuess").addEventListener("click", function() {
-    feedbackElement.textContent = "";
-    if (userGuess.toLowerCase() === "нело" || userGuess === "Нело") {
-        for (let i = 0; i <= 7; i++) {
+    const userGuess = document.getElementById("guessInput").value;
+    const feedbackElement = document.getElementById("feedback");
+    feedbackElement.textContent = ""; // Очищаем предыдущие результаты
+    
+    let randomIndex = Math.floor(Math.random() * 2); // 0 или 1
+    let b0 = randomIndex === 0 ? Нело : Кейкен;
+    
+    if (userGuess.toLowerCase() === "нело") {
+        for (let i = 0; i < Нело.length; i++) {
             if (Нело[i] === b0[i]) {
                 feedbackElement.textContent += " a ";
                 feedbackElement.style.color = "green";
@@ -42,14 +38,13 @@ document.getElementById("submitGuess").addEventListener("click", function() {
             }
         }
     }
-    if (userGuess.toLowerCase() === "кейкен" || userGuess === "Кейкен") {
-        for (let i = 0; i <= 7; i++) {
-            if (Нело[i] === b0[i]) {
+    else if (userGuess.toLowerCase() === "кейкен") {
+        for (let i = 0; i < Кейкен.length; i++) {
+            if (Кейкен[i] === b0[i]) {
                 feedbackElement.textContent += " a ";
                 feedbackElement.style.color = "green";
-            } 
-            else {
-                feedbackElement.textContent += " b ";
+            } else {
+                feedbackElement.textContent += " a ";
                 feedbackElement.style.color = "red";
             }
         }
