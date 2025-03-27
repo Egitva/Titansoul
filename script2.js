@@ -1,5 +1,6 @@
 const userGuess = document.getElementById("guessInput").value;
 const feedbackElement = document.getElementById("feedback");
+let b0;
 const Нело = [
     "Муж",
     "Мафия",
@@ -21,14 +22,15 @@ const Кейкен = [
     "Понятие Звёзд",
 ]
 function penis() {
-    let randomIndex = Math.floor(Math.random() * 2); 
-    let b0; 
+    let randomIndex = Math.floor(Math.random() * 2);
     if (randomIndex === 0) {
         b0 = Нело;
     } else if (randomIndex === 1) {
         b0 = Кейкен;
     }
+    return b0
 }
+penis();
 document.getElementById("submitGuess").addEventListener("click", function() {
     feedbackElement.textContent = "";
     if (userGuess.toLowerCase() === "нело" || userGuess === "Нело") {
