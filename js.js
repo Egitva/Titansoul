@@ -1,3 +1,4 @@
+var b0;
 const Нело = [
     "Муж",
     "Мафия",
@@ -18,14 +19,15 @@ const Кейкен = [
     "Гелу",
     "Понятие Звёзд",
 ];
+function Randomer() {
+    let randomIndex = Math.floor(Math.random() * 2); // 0 или 1
+    b0 = randomIndex === 0 ? Нело : Кейкен;
+}
 
 document.getElementById("submitGuess").addEventListener("click", function() {
     const userGuess = document.getElementById("guessInput").value;
     const feedbackElement = document.getElementById("feedback");
     feedbackElement.textContent = ""; // Очищаем предыдущие результаты
-    
-    let randomIndex = Math.floor(Math.random() * 2); // 0 или 1
-    let b0 = randomIndex === 0 ? Нело : Кейкен;
     
     if (userGuess.toLowerCase() === "нело") {
         for (let i = 0; i < Нело.length; i++) {
@@ -50,3 +52,5 @@ document.getElementById("submitGuess").addEventListener("click", function() {
         }
     }
 });
+
+Randomer();
