@@ -1,4 +1,5 @@
 var b0;
+//var divnum;
 const Нело = [
     "Муж",
     "Мафия",
@@ -150,7 +151,8 @@ document.getElementById("submitGuess").addEventListener("click", function() {
     const userGuess = document.getElementById("guessInput").value;
     const feedbackElement = document.getElementById("feedback");
     feedbackElement.textContent = ""; // Очищаем предыдущие результаты
-    
+    //divnum += 1;
+    //feedbackElement.createElement('div').id = "div"+divnum;
     if (userGuess.toLowerCase() === "нело") {
         for (let i = 0; i < Нело.length; i++) {
             if (Нело[i] === b0[i]) {

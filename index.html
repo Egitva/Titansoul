@@ -23,6 +23,68 @@
 <body>
 	<div class="LBack"></div>
 	<div class="RBack"></div>
+	<canvas id="gorillaCanvas" width="300" height="300"></canvas>
+	<script>
+		const canvas = document.getElementById('gorillaCanvas');
+		const ctx = canvas.getContext('2d');
+		let angle = 0;
+		const gorillaColor = '#333';
+		const highlightColor = '#666';
+		
+		function drawGorilla() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.save();
+			ctx.translate(canvas.width/2, canvas.height/2);
+			ctx.rotate(angle);
+			
+			// Detailed gorilla with more dots
+			// Head (more detailed)
+			drawCircle(0, -50, 20, gorillaColor); // Main head
+			drawCircle(-10, -60, 5, highlightColor); // Left eye
+			drawCircle(10, -60, 5, highlightColor); // Right eye
+			drawCircle(0, -40, 8, '#666'); // Mouth/nose area
+			
+			// Body with more details
+			drawCircle(0, 20, 30, gorillaColor); // Main body
+			drawCircle(0, 10, 10, highlightColor); // Chest
+			drawCircle(0, 30, 15, highlightColor); // Belly
+			
+			// Arms with joints
+			// Left arm
+			drawCircle(-40, 0, 15, gorillaColor); // Upper arm
+			drawCircle(-60, 10, 10, gorillaColor); // Lower arm
+			drawCircle(-70, 15, 5, highlightColor); // Hand
+			
+			// Right arm
+			drawCircle(40, 0, 15, gorillaColor); // Upper arm
+			drawCircle(60, 10, 10, gorillaColor); // Lower arm
+			drawCircle(70, 15, 5, highlightColor); // Hand
+			
+			// Legs with joints
+			// Left leg
+			drawCircle(-20, 50, 15, gorillaColor); // Upper leg
+			drawCircle(-25, 75, 10, gorillaColor); // Lower leg
+			drawCircle(-25, 90, 5, highlightColor); // Foot
+			
+			// Right leg
+			drawCircle(20, 50, 15, gorillaColor); // Upper leg
+			drawCircle(25, 75, 10, gorillaColor); // Lower leg
+			drawCircle(25, 90, 5, highlightColor); // Foot
+			
+			ctx.restore();
+			angle += 0.02;
+			requestAnimationFrame(drawGorilla);
+		}
+		
+		function drawCircle(x, y, radius, color) {
+			ctx.beginPath();
+			ctx.arc(x, y, radius, 0, Math.PI * 2);
+			ctx.fillStyle = color;
+			ctx.fill();
+		}
+		
+		drawGorilla();
+	</script>
 </body>
 <footer>
 </footer>
