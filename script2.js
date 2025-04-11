@@ -1,5 +1,8 @@
 var b0;
 //var divnum;
+var otveti; 
+var otvtag;
+var otvetistr;
 const Нело = [
     "Муж",
     "Мафия",
@@ -150,127 +153,120 @@ function Randomer() {
 document.getElementById("submitGuess").addEventListener("click", function() {
     const userGuess = document.getElementById("guessInput").value;
     const feedbackElement = document.getElementById("feedback");
-    feedbackElement.textContent = ""; // Очищаем предыдущие результаты
-    //divnum += 1;
-    //feedbackElement.createElement('div').id = "div"+divnum;
+    //feedbackElement.textContent = "";
+    otveti += "1";
+    otvtag = "otv" + otveti;
+    document.getElementById('feedback').innerHTML+=`<div class='otvetis' id='${otvtag}'>`+`</div>`;
+    //document.getElementById(otvtag).style.color = "green";
     if (userGuess.toLowerCase() === "нело") {
         for (let i = 0; i < Нело.length; i++) {
             if (Нело[i] === b0[i]) {
-                feedbackElement.textContent += Нело[i] + " + ";
-                feedbackElement.style.color = "green";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Нело[i]}<p>`
+                //document.getElementById(otvtag).textContent += Нело[i]}<p>`;
             } else {
-                feedbackElement.textContent += Нело[i] + " - ";
-                feedbackElement.style.color = "red";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Нело[i]}<p>`
+                //document.getElementById(otvtag).textContent += Нело[i]}<p>`;
+                //
             }
         }
     }
     else if (userGuess.toLowerCase() === "кейкен") {
         for (let i = 0; i < Кейкен.length; i++) {
             if (Кейкен[i] === b0[i]) {
-                feedbackElement.textContent += Кейкен[i] + " + ";
-                feedbackElement.style.color = "green";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Кейкен[i]}<p>`;
             } else {
-                feedbackElement.textContent += Кейкен[i] + " - ";
-                feedbackElement.style.color = "red";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Кейкен[i]}<p>`;
+                
             }
         }
     }
     else if (userGuess.toLowerCase() === "холден") {
         for (let i = 0; i < Холден.length; i++) {
             if (Холден[i] === b0[i]) {
-                feedbackElement.textContent += Холден[i] + " + ";
-                feedbackElement.style.color = "green";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Холден[i]}<p>`;
             } else {
-                feedbackElement.textContent += Холден[i] + " - ";
-                feedbackElement.style.color = "red";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Холден[i]}<p>`;
+                
             }
         }
     }
     else if (userGuess.toLowerCase() === "дуолуо") {
         for (let i = 0; i < ДуоЛуо.length; i++) {
             if (ДуоЛуо[i] === b0[i]) {
-                feedbackElement.textContent += ДуоЛуо[i] + " + ";
-                feedbackElement.style.color = "green";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${ДуоЛуо[i]}<p>`;
             } else {
-                feedbackElement.textContent += ДуоЛуо[i] + " - ";
-                feedbackElement.style.color = "red";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${ДуоЛуо[i]}<p>`;
+                
             }
         }
     }
     else if (userGuess.toLowerCase() === "росса") {
         for (let i = 0; i < Росса.length; i++) {
             if (Росса[i] === b0[i]) {
-                feedbackElement.textContent += Росса[i] + " + ";
-                feedbackElement.style.color = "green";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Росса[i]}<p>`;
             } else {
-                feedbackElement.textContent += Росса[i] + " - ";
-                feedbackElement.style.color = "red";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Росса[i]}<p>`;
+                
             }
         }
     }
     else if (userGuess.toLowerCase() === "лола") {
         for (let i = 0; i < Лола.length; i++) {
             if (Лола[i] === b0[i]) {
-                feedbackElement.textContent += Лола[i] + " + ";
-                feedbackElement.style.color = "green";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Лола[i]}<p>`;
             } else {
-                feedbackElement.textContent += Лола[i] + " - ";
-                feedbackElement.style.color = "red";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Лола[i]}<p>`;
+                
             }
         }
     }
     else if (userGuess.toLowerCase() === "рене") {
         for (let i = 0; i < Рене.length; i++) {
             if (Рене[i] === b0[i]) {
-                feedbackElement.textContent += Рене[i] + " + ";
-                feedbackElement.style.color = "green";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Рене[i]}<p>`;
             } else {
-                feedbackElement.textContent += Рене[i] + " - ";
-                feedbackElement.style.color = "red";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Рене[i]}<p>`;
+                
             }
         }
     }
     else if (userGuess.toLowerCase() === "шенми") {
         for (let i = 0; i < Шенми.length; i++) {
             if (Шенми[i] === b0[i]) {
-                feedbackElement.textContent += Шенми[i] + " + ";
-                feedbackElement.style.color = "green";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Шенми[i]}<p>`;
             } else {
-                feedbackElement.textContent += Шенми[i] + " - ";
-                feedbackElement.style.color = "red";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Шенми[i]}<p>`;
+                
             }
         }
     }
     else if (userGuess.toLowerCase() === "фокси") {
         for (let i = 0; i < Фокси.length; i++) {
             if (Фокси[i] === b0[i]) {
-                feedbackElement.textContent += Фокси[i] + " + ";
-                feedbackElement.style.color = "green";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Фокси[i]}<p>`;
             } else {
-                feedbackElement.textContent += Фокси[i] + " - ";
-                feedbackElement.style.color = "red";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Фокси[i]}<p>`;
+                
             }
         }
     }
     else if (userGuess.toLowerCase() === "наро") {
         for (let i = 0; i < Наро.length; i++) {
             if (Наро[i] === b0[i]) {
-                feedbackElement.textContent += Наро[i] + " + ";
-                feedbackElement.style.color = "green";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Наро[i]}<p>`;
             } else {
-                feedbackElement.textContent += Наро[i] + " - ";
-                feedbackElement.style.color = "red";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Наро[i]}<p>`;
+                
             }
         }
     }
     else if (userGuess.toLowerCase() === "нэй") {
         for (let i = 0; i < Нэй.length; i++) {
             if (Нэй[i] === b0[i]) {
-                feedbackElement.textContent += Нэй[i] + " + ";
-                feedbackElement.style.color = "green";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Нэй[i]}<p>`;
             } else {
-                feedbackElement.textContent += Нэй[i] + " - ";
-                feedbackElement.style.color = "red";
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Нэй[i]}<p>`;
+                
             }
         }
     }
