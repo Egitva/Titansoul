@@ -113,8 +113,108 @@ const Нэй = [
     "Гелу",
     "Сын Священника",
 ];
+const Фолл = [
+    "Жен",
+    "Феи",
+    "Нет",
+    "Звёздная",
+    "Нет",
+    "187",
+    "Гелу",
+    "Специальный выпуск",
+];
+const Альфа = [
+    "Жен",
+    "Мафия",
+    "Нет",
+    "Мастер Тенто",
+    "10000",
+    "165",
+    "Гелу",
+    "Специальный выпуск",
+];
+const Лойд = [
+    "Муж",
+    "Мафия",
+    "Призыв",
+    "Молния",
+    "8138",
+    "194",
+    "Гелу",
+    "Несуществующие Зубы",
+];
+const Кифер = [
+    "Муж",
+    "The Evil Mountians",
+    "Тело",
+    "Нет",
+    "800",
+    "174",
+    "Гелу",
+    "Несуществующие Зубы",
+];
+const Ями = [
+    "Муж",
+    "Рыцарь",
+    "Аура",
+    "Луна",
+    "250000",
+    "210",
+    "Гелу",
+    "Сын Священника",
+];
+const Дарио = [
+    "Муж",
+    "Мафия",
+    "Аура",
+    "Ускорение",
+    "200000",
+    "141",
+    "Гелу",
+    "О.М.П и Н.С",
+];
+const Данте = [
+    "Муж",
+    "The Evil Mountians",
+    "Аура",
+    "Тьма",
+    "400",
+    "177",
+    "Имбер",
+    "Несуществующие Зубы",
+];
+const Гелан = [
+    "Муж",
+    "Мафия",
+    "Аура",
+    "Земля",
+    "11000",
+    "122",
+    "Неизвестно",
+    "О.М.П и Н.С",
+];
+const Айвори = [
+    "Жен",
+    "The Evil Mountians",
+    "Мир",
+    "Огонь",
+    "110000",
+    "160",
+    "Нулл",
+    "О.М.П и Н.С",
+];
+const Агио = [
+    "Жен",
+    "Нет",
+    "Неизвестно",
+    "Неизвестно",
+    "Неизвестно",
+    "189",
+    "Неизвестно",
+    "О.М.П и Н.С",
+];
 function Randomer() {
-    let randomIndex = Math.floor(Math.random() * 11); // 0 или 1
+    let randomIndex = Math.floor(Math.random() * 21); // 0 или 1
     if (randomIndex === 0) {
         b0 = Нело;
     }
@@ -148,11 +248,40 @@ function Randomer() {
     else if (randomIndex === 10) {
         b0 = Нэй;
     }
+    else if (randomIndex === 11) {
+        b0 = Фолл;
+    }
+    else if (randomIndex === 12) {
+        b0 = Альфа;
+    }
+    else if (randomIndex === 13) {
+        b0 = Лойд;
+    }
+    else if (randomIndex === 14) {
+        b0 = Кифер;
+    }
+    else if (randomIndex === 15) {
+        b0 = Ями;
+    }
+    else if (randomIndex === 16) {
+        b0 = Дарио;
+    }
+    else if (randomIndex === 17) {
+        b0 = Данте;
+    }
+    else if (randomIndex === 18) {
+        b0 = Гелан;
+    }
+    else if (randomIndex === 19) {
+        b0 = Айвори;
+    }
+    else if (randomIndex === 20) {
+        b0 = Агио;
+    }
 }
 
 document.getElementById("submitGuess").addEventListener("click", function() {
     const userGuess = document.getElementById("guessInput").value;
-    const feedbackElement = document.getElementById("feedback");
     //feedbackElement.textContent = "";
     otveti += "1";
     otvtag = "otv" + otveti;
@@ -266,6 +395,106 @@ document.getElementById("submitGuess").addEventListener("click", function() {
                 document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Нэй[i]}<p>`;
             } else {
                 document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Нэй[i]}<p>`;
+                
+            }
+        }
+    }
+    else if (userGuess.toLowerCase() === "фолл") {
+        for (let i = 0; i < Фолл.length; i++) {
+            if (Фолл[i] === b0[i]) {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Фолл[i]}<p>`;
+            } else {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Фолл[i]}<p>`;
+                
+            }
+        }
+    }
+    else if (userGuess.toLowerCase() === "альфа") {
+        for (let i = 0; i < Альфа.length; i++) {
+            if (Альфа[i] === b0[i]) {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Альфа[i]}<p>`;
+            } else {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Альфа[i]}<p>`;
+                
+            }
+        }
+    }
+    else if (userGuess.toLowerCase() === "лойд") {
+        for (let i = 0; i < Альфа.length; i++) {
+            if (Лойд[i] === b0[i]) {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Лойд[i]}<p>`;
+            } else {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Лойд[i]}<p>`;
+                
+            }
+        }
+    }
+    else if (userGuess.toLowerCase() === "кифер") {
+        for (let i = 0; i < Альфа.length; i++) {
+            if (Кифер[i] === b0[i]) {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Кифер[i]}<p>`;
+            } else {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Кифер[i]}<p>`;
+                
+            }
+        }
+    }
+    else if (userGuess.toLowerCase() === "ями") {
+        for (let i = 0; i < Альфа.length; i++) {
+            if (Ями[i] === b0[i]) {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Ями[i]}<p>`;
+            } else {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Ями[i]}<p>`;
+                
+            }
+        }
+    }
+    else if (userGuess.toLowerCase() === "дарио") {
+        for (let i = 0; i < Альфа.length; i++) {
+            if (Дарио[i] === b0[i]) {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Дарио[i]}<p>`;
+            } else {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Дарио[i]}<p>`;
+                
+            }
+        }
+    }
+    else if (userGuess.toLowerCase() === "данте") {
+        for (let i = 0; i < Альфа.length; i++) {
+            if (Данте[i] === b0[i]) {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Данте[i]}<p>`;
+            } else {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Данте[i]}<p>`;
+                
+            }
+        }
+    }
+    else if (userGuess.toLowerCase() === "гелан") {
+        for (let i = 0; i < Альфа.length; i++) {
+            if (Гелан[i] === b0[i]) {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Гелан[i]}<p>`;
+            } else {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Гелан[i]}<p>`;
+                
+            }
+        }
+    }
+    else if (userGuess.toLowerCase() === "айвори") {
+        for (let i = 0; i < Альфа.length; i++) {
+            if (Айвори[i] === b0[i]) {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Айвори[i]}<p>`;
+            } else {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Айвори[i]}<p>`;
+                
+            }
+        }
+    }
+    else if (userGuess.toLowerCase() === "агио") {
+        for (let i = 0; i < Альфа.length; i++) {
+            if (Агио[i] === b0[i]) {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="true">${Агио[i]}<p>`;
+            } else {
+                document.getElementById(otvtag).innerHTML += `<p src='images/Blank.png' class="false">${Агио[i]}<p>`;
                 
             }
         }
