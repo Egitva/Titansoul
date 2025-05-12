@@ -1,5 +1,7 @@
 var draw = document.getElementById("draw");
 var counter = 1;
+var carda = document.getElementById("carda");
+var canvase = document.getElementById("canvase");
 deck = [
     "F1",
     "F2",
@@ -11,6 +13,12 @@ deck = [
     "F7",
     "F7",
     "F8",
+    "F9",
+    "F9",
+    "F9",
+    "F9",
+    "F10",
+    "F11",
 ]
 hand = []
 draw.onclick = function() {
@@ -22,6 +30,10 @@ draw.onclick = function() {
         texto = `images/Cards/${deck[randomChar]}.png`;
     };
     document.getElementById("cards").innerHTML += `<img id="carda" class="carda" src='${texto}'>`;
+    hand.push(deck[randomChar]);
     deck.splice(randomChar, 1);
     }
+}
+carda.onclick = function() {
+    canvase.innerHTML += `<img id="carda" class="carda" src='images/Cards/$F10.png'>`;
 }

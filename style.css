@@ -139,12 +139,14 @@ body {
     padding: 5px 5px;
 }
 .carda {
+    transition: width 0.5s, height 0.5s;
     width: 89; 
     height: 135; 
     text-align: center; 
     margin: 5px;
 }
 .carda:hover {
+    transition: width 0.5s, height 0.5s;
     width: 111;
     height: 169;
 }
