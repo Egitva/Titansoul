@@ -138,3 +138,13 @@ body {
     margin-right: 10px;
     padding: 5px 5px;
 }
+.carda {
+    width: 89; 
+    height: 135; 
+    text-align: center; 
+    margin: 5px;
+}
+.carda:hover {
+    width: 111;
+    height: 169;
+}

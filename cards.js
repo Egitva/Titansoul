@@ -1,8 +1,27 @@
 var draw = document.getElementById("draw");
 var counter = 1;
-card_list = [
-    "negr"
+deck = [
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F7",
+    "F7",
+    "F8",
 ]
+hand = []
 draw.onclick = function() {
-    document.getElementById("cards").innerHTML+=`<img src='mangaPages/CH1/TS0.jpg' style="width: 50; height: 50; text-align: center; margin: 5px;">`;
+    if (deck.length > 0) {
+        let texto = `images/Cards/undefined.png`;
+    let randomChar = 0;
+    while (texto === `images/Cards/undefined.png`) {
+        randomChar = Math.floor(Math.random() * deck.length);
+        texto = `images/Cards/${deck[randomChar]}.png`;
+    };
+    document.getElementById("cards").innerHTML += `<img id="carda" class="carda" src='${texto}'>`;
+    deck.splice(randomChar, 1);
+    }
 }
