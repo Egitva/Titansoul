@@ -2,6 +2,7 @@ var draw = document.getElementById("draw");
 var choose = document.getElementById("choose");
 var counter = 1;
 var canvase = document.getElementById("canvase");
+var asidecode_talker = document.getElementById("aside");
 deck = [
     "F1",
     "F2",
@@ -19,9 +20,21 @@ deck = [
     "F9",
     "F10",
     "F11",
+    "F12",
+    "F13",
+    "F14",
+    "F17",
+    "F17",
+    "F17",
+]
+aside = [
+    "F15",
+    "F16",
 ]
 hand = []
 choose_list = []
+texto = `images/Cards/${deck[1]}.png`;
+asidecode_talker = `<img class="carda" src='${texto}'>`;
 draw.onclick = function() {
     if (deck.length > 0) {
         let texto = `images/Cards/undefined.png`;
@@ -64,10 +77,10 @@ choose.onclick = function() {
     }
 }}
 document.getElementById("opis").addEventListener('click', (event) => {
-    if (event.target2 && event.target2.classList.contains('carda')) {
-        let clickedCardSrc = event.target2.src;
+    if (event.target2 && event.target.classList.contains('carda')) {
+        let clickedCardSrc = event.target.src;
         document.getElementById("cards").innerHTML += `<img class="carda" src='${clickedCardSrc}'>`;
-        event.target2.remove();
+        event.target.remove();
         let cardIdMatch = clickedCardSrc.match(/\/([^\/]+)\.png$/);
         if (cardIdMatch) {
             let cardId = cardIdMatch[1];
