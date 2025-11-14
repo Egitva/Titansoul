@@ -64,6 +64,9 @@ document.getElementById("cards").addEventListener('click', (event) => {
     }
 });
 choose.onclick = function() {
+    document.getElementById("opis").innerHTML = null;
+    document.getElementById("opis").innerHTML += `<button class="cleared" id="clear" style="float: left;">CLOSE DECK</button>`;
+    var clear = document.getElementById("clear");
     for (let i = 0; i < deck.length; i++) {
         if (deck.length > 0) {
             let texto = `images/Cards/undefined.png`;
@@ -77,7 +80,7 @@ choose.onclick = function() {
     }
 }}
 document.getElementById("opis").addEventListener('click', (event) => {
-    if (event.target2 && event.target.classList.contains('carda')) {
+    if (event.target && event.target.classList.contains('carda')) {
         let clickedCardSrc = event.target.src;
         document.getElementById("cards").innerHTML += `<img class="carda" src='${clickedCardSrc}'>`;
         event.target.remove();
@@ -89,5 +92,8 @@ document.getElementById("opis").addEventListener('click', (event) => {
                 choose_list.splice(index, 1);
             }
         }
+    }
+    if (event.target && event.target.classList.contains('cleared')) {
+        document.getElementById("opis").innerHTML = null;
     }
 });
