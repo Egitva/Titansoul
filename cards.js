@@ -2,6 +2,7 @@ var draw = document.getElementById("draw");
 var choose = document.getElementById("choose");
 var counter = 1;
 var canvase = document.getElementById("canvase");
+var ftoh = document.getElementById("ftoh");
 var asidecode_talker = document.getElementById("aside");
 deck = [
     "F1",
@@ -51,7 +52,13 @@ draw.onclick = function() {
 document.getElementById("cards").addEventListener('click', (event) => {
     if (event.target && event.target.classList.contains('carda')) {
         let clickedCardSrc = event.target.src;
-        canvase.innerHTML += `<img class="carda" id="goyda" src='${clickedCardSrc}'>`;
+        canvase.innerHTML += `<div class="dropdown">
+  		<img class="carda" id="gob" src='${clickedCardSrc}'>
+  		<div class="dropdown-content">
+    		<a href="#" class="nulla">TO NULL</a>
+    		<a href="#" class="handa">TO HAND</a>
+  		</div>
+	</div>`;
         event.target.remove();
         let cardIdMatch = clickedCardSrc.match(/\/([^\/]+)\.png$/);
         if (cardIdMatch) {
@@ -95,5 +102,23 @@ document.getElementById("opis").addEventListener('click', (event) => {
     }
     if (event.target && event.target.classList.contains('cleared')) {
         document.getElementById("opis").innerHTML = null;
+    }
+});
+ftoh.onclick = function() {
+    ftoh.classList.add('buttonActive');
+};
+document.getElementById("canvase").addEventListener('click', (event) => {
+    if (event.target && event.target.classList.contains('nulla')) {
+        let clickedCardSrc = event.target.src;
+        document.getElementById("aside").innerHTML += `<img class="carda" src='${clickedCardSrc}'>`;
+        event.target.remove();
+        let cardIdMatch = clickedCardSrc.match(/\/([^\/]+)\.png$/);
+        if (cardIdMatch) {
+            let cardId = cardIdMatch[1];
+            let index = choose_list.indexOf(cardId);
+            if (index !== -1) {
+                choose_list.splice(index, 1);
+            }
+        }
     }
 });
