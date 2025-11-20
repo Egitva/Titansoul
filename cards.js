@@ -109,7 +109,7 @@ ftoh.onclick = function() {
 };
 document.getElementById("canvase").addEventListener('click', (event) => {
     if (event.target && event.target.classList.contains('nulla')) {
-        let clickedCardSrc = event.target.src;
+        let clickedCardSrc = document.getElementById("gob").src;
         document.getElementById("aside").innerHTML += `<img class="carda" src='${clickedCardSrc}'>`;
         event.target.remove();
         let cardIdMatch = clickedCardSrc.match(/\/([^\/]+)\.png$/);
