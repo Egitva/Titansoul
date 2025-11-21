@@ -3,7 +3,6 @@ var choose = document.getElementById("choose");
 var counter = 1;
 var canvase = document.getElementById("canvase");
 var ftoh = document.getElementById("ftoh");
-var asidecode_talker = document.getElementById("aside");
 deck = [
     "F1",
     "F2",
@@ -32,8 +31,10 @@ aside = [
     "F15",
     "F16",
 ]
+nullI =[]
 hand = []
 choose_list = []
+field = []
 texto = `images/Cards/${deck[1]}.png`;
 asidecode_talker = `<img class="carda" src='${texto}'>`;
 draw.onclick = function() {
@@ -44,19 +45,22 @@ draw.onclick = function() {
         randomChar = Math.floor(Math.random() * deck.length);
         texto = `images/Cards/${deck[randomChar]}.png`;
     };
-    document.getElementById("cards").innerHTML += `<img class="carda" src='${texto}'>`;
+    document.getElementById("cards").innerHTML += `<img class="carda" id="${deck[randomChar]}" src='${texto}'>`;
     hand.push(deck[randomChar]);
     deck.splice(randomChar, 1);
     }
 }
 document.getElementById("cards").addEventListener('click', (event) => {
-    if (event.target && event.target.classList.contains('carda')) {
+    if ((event.target && event.target.classList.contains('carda')) && (field.length < 4)) {
         let clickedCardSrc = event.target.src;
-        canvase.innerHTML += `<div class="dropdown">
-  		<img class="carda" id="gob" src='${clickedCardSrc}'>
+        field.push(event.target.id);
+        hand.splice(event.target.id);
+        canvase.innerHTML += `<div class="dropdown" id="${event.target.id+"_d"+field.length}">
+  		<img class="carda" id="${event.target.id+"_i"+field.length}" src='${clickedCardSrc}'>
   		<div class="dropdown-content">
-    		<a href="#" class="nulla">TO NULL</a>
-    		<a href="#" class="handa">TO HAND</a>
+    		<a href="#" class="nulla" id="${event.target.id+"_f"+field.length}">TO NULL</a>
+    		<a href="#" class="handa" id="${event.target.id+"_f"+field.length}">TO HAND</a>
+            <a href="#" class="taper" id="${event.target.id+"_f"+field.length}">TAP</a>
   		</div>
 	</div>`;
         event.target.remove();
@@ -109,16 +113,34 @@ ftoh.onclick = function() {
 };
 document.getElementById("canvase").addEventListener('click', (event) => {
     if (event.target && event.target.classList.contains('nulla')) {
-        let clickedCardSrc = document.getElementById("gob").src;
-        document.getElementById("aside").innerHTML += `<img class="carda" src='${clickedCardSrc}'>`;
-        event.target.remove();
+        let clickedCardSrc = document.getElementById(event.target.id.replace('f', 'i')).src;
+        document.getElementById("nullI").innerHTML += `<img class="carda" id="${event.target.id.slice(0, -3)}" src='${clickedCardSrc}'>`;
+        nullI.push(event.target.id.slice(0, -3), 1);
+        field.splice(event.target.id.slice(0, -3), 1);
+        document.getElementById(event.target.id.replace('f', 'd')).remove();
         let cardIdMatch = clickedCardSrc.match(/\/([^\/]+)\.png$/);
         if (cardIdMatch) {
             let cardId = cardIdMatch[1];
             let index = choose_list.indexOf(cardId);
             if (index !== -1) {
-                choose_list.splice(index, 1);
             }
         }
+    }
+    if (event.target && event.target.classList.contains('handa')) {
+        let clickedCardSrc = document.getElementById(event.target.id.replace('f', 'i')).src;
+        document.getElementById("cards").innerHTML += `<img class="carda" id="${event.target.id.slice(0, -3)}" src='${clickedCardSrc}'>`;
+        hand.push(event.target.id.slice(0, -3), 1);
+        field.splice(event.target.id.slice(0, -3), 1);
+        document.getElementById(event.target.id.replace('f', 'd')).remove();
+        let cardIdMatch = clickedCardSrc.match(/\/([^\/]+)\.png$/);
+        if (cardIdMatch) {
+            let cardId = cardIdMatch[1];
+            let index = choose_list.indexOf(cardId);
+            if (index !== -1) {
+            }
+        }
+    }
+    if (event.target && event.target.classList.contains('taper')) {
+        document.getElementById(event.target.id.replace('f', 'i')).classList.add('tap');
     }
 });

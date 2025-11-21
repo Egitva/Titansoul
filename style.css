@@ -176,3 +176,10 @@ body {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+.tap {
+  transform: rotate(90deg);
+  width: 89; 
+  height: 135; 
+  text-align: center; 
+  margin: 5px;
+}
