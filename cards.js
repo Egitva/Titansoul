@@ -3,6 +3,7 @@ var choose = document.getElementById("choose");
 var counter = 1;
 var canvase = document.getElementById("canvase");
 var ftoh = document.getElementById("ftoh");
+const gridContainer = document.getElementById('grid-container');
 deck = [
     "F1",
     "F2",
@@ -55,7 +56,8 @@ document.getElementById("cards").addEventListener('click', (event) => {
         let clickedCardSrc = event.target.src;
         field.push(event.target.id);
         hand.splice(event.target.id);
-        canvase.innerHTML += `<div class="dropdown" id="${event.target.id+"_d"+field.length}">
+        const gridItem = document.createElement('div');
+        gridItem.innerHTML = `<div class="dropdown" id="${event.target.id+"_d"+field.length}">
   		<img class="carda" id="${event.target.id+"_i"+field.length}" src='${clickedCardSrc}'>
   		<div class="dropdown-content">
     		<a href="#" class="nulla" id="${event.target.id+"_f"+field.length}">TO NULL</a>

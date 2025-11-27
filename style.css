@@ -183,3 +183,10 @@ body {
   text-align: center; 
   margin: 5px;
 }
+#canvase {
+  display: grid; /* Включаем сетку */
+  grid-template-columns: repeat(4, 1fr); /* 3 столбца одинаковой ширины */
+  grid-template-rows: repeat(1, 1fr); /* 100px в высоту для каждой строки */
+  /*gap: 2px; /* Расстояние между ячейками */
+  border: 1px solid black;
+}
