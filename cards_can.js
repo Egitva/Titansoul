@@ -45,8 +45,8 @@ deck = [
     "KR015-00",
     "KR015-00",
 ];
-
-aside = ["KR002-00", "KR016-00"];
+aside = ["KR016-00"];
+lead = ["KR002-00", "KR016-00"];
 nullI = [];
 hand = [];
 choose_list = [];
@@ -75,12 +75,13 @@ let mouseY = 0;
 
 // Load card images
 let cardImages = {};
+let cardImagesNull = {};
 let imagesLoaded = 0;
-const totalImages = [...new Set([...deck, ...aside])].length;
+const totalImages = [...new Set([...deck, ...aside, ...lead, ...nullI])].length;
 
 function loadCardImages() {
-    const uniqueCards = [...new Set([...deck, ...aside])];
-    
+    const uniqueCards = [...new Set([...deck, ...aside, ...lead, ...nullI])];
+
     uniqueCards.forEach(cardId => {
         const img = new Image();
         img.onload = () => {
@@ -99,30 +100,10 @@ function loadCardImages() {
         };
         img.src = `images/Cards/${cardId}.png`;
         cardImages[cardId] = img;
-    });
-}
-function loadNullImages() {
-    const uniqueCardsNull = [...new Set([...nullI])];
-    uniqueCardsNull.forEach(cardId => {
-        const img = new Image();
-        img.onload = () => {
-            imagesLoaded++;
-            if (imagesLoaded === totalImages) {
-                console.log('All card images loaded');
-                render();
-            }
-        };
-        img.onerror = () => {
-            console.warn(`Failed to load image for card: ${cardId}`);
-            imagesLoaded++;
-            if (imagesLoaded === totalImages) {
-                render();
-            }
-        };
-        img.src = `images/Cards/${cardId}.png`;
         cardImagesNull[cardId] = img;
     });
 }
+
 
 // Modal for choosing cards from deck
 function showChooseModal(fromwhere) {
@@ -316,7 +297,6 @@ function showNullModal() {
         img.src = cardImages[card.id] ? cardImages[card.id].src : '';
         img.style.width = '60px';
         img.style.height = '90px';
-        cardDiv.appendChild(img);
 
         cardDiv.onclick = () => {
             if (selectedCards.includes(index)) {
@@ -369,6 +349,79 @@ function showNullModal() {
         modal.style.display = 'none';
     };
     buttonsDiv.appendChild(closeBtn);
+
+    modal.style.display = 'flex';
+}
+
+// Modal for changing aside card image
+function showChangeImageModal() {
+    let modal = document.getElementById('change-image-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'change-image-modal';
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100%';
+        modal.style.height = '100%';
+        modal.style.backgroundColor = 'rgba(0,0,0,0.7)';
+        modal.style.display = 'flex';
+        modal.style.justifyContent = 'center';
+        modal.style.alignItems = 'center';
+        modal.style.zIndex = '1000';
+        document.body.appendChild(modal);
+    }
+    modal.innerHTML = '';
+    const content = document.createElement('div');
+    content.style.backgroundColor = 'white';
+    content.style.padding = '20px';
+    content.style.borderRadius = '10px';
+    content.style.display = 'flex';
+    content.style.flexDirection = 'column';
+    content.style.alignItems = 'center';
+    modal.appendChild(content);
+
+    const title = document.createElement('h2');
+    title.textContent = 'Change Aside Card Image';
+    content.appendChild(title);
+
+    const cardsContainer = document.createElement('div');
+    cardsContainer.style.display = 'flex';
+    cardsContainer.style.flexWrap = 'wrap';
+    cardsContainer.style.justifyContent = 'center';
+    content.appendChild(cardsContainer);
+
+    lead.forEach((cardId, index) => {
+        const cardDiv = document.createElement('div');
+        cardDiv.style.margin = '5px';
+        cardDiv.style.display = 'flex';
+        cardDiv.style.flexDirection = 'column';
+        cardDiv.style.alignItems = 'center';
+        cardDiv.style.cursor = 'pointer';
+        cardDiv.style.border = '2px solid transparent';
+        cardsContainer.appendChild(cardDiv);
+
+        const img = document.createElement('img');
+        img.src = cardImages[cardId] ? cardImages[cardId].src : '';
+        img.style.width = '60px';
+        img.style.height = '90px';
+        cardDiv.appendChild(img);
+
+        cardDiv.onclick = () => {
+            if (asideCards.length > 0) {
+                asideCards[0].id = cardId;
+            }
+            modal.style.display = 'none';
+            render();
+        };
+    });
+
+    const closeBtn = document.createElement('button');
+    closeBtn.textContent = 'Close';
+    closeBtn.onclick = () => {
+        modal.style.display = 'none';
+    };
+    content.appendChild(closeBtn);
 
     modal.style.display = 'flex';
 }
@@ -487,6 +540,23 @@ function showAsideModal() {
         render();
     };
     buttonsDiv.appendChild(nullBtn);
+
+    const flipBtn = document.createElement('button');
+    flipBtn.textContent = 'Flip Selected';
+    flipBtn.onclick = () => {
+        selectedCards.forEach(index => {
+            const card = asideCards[index];
+            if (lead.includes(card.id)) {
+                const otherLeads = lead.filter(id => id !== card.id);
+                if (otherLeads.length > 0) {
+                    card.id = otherLeads[Math.floor(Math.random() * otherLeads.length)];
+                }
+            }
+        });
+        modal.style.display = 'none';
+        render();
+    };
+    buttonsDiv.appendChild(flipBtn);
 
     const closeBtn = document.createElement('button');
     closeBtn.textContent = 'Close';
@@ -656,6 +726,13 @@ function getCardAt(x, y) {
     const asideY = 10;
     if (x >= asideX && x <= asideX + cardWidth + 20 &&
         y >= asideY && y <= asideY + cardHeight + 10) {
+        // Check specific aside cards
+        for (let i = asideCards.length - 1; i >= 0; i--) {
+            const cardY = 30 + i * 10;
+            if (y >= cardY && y <= cardY + cardHeight) {
+                return { type: 'aside', index: i, card: asideCards[i] };
+            }
+        }
         return { type: 'aside', index: -1, card: null };
     }
 
@@ -754,8 +831,8 @@ canvas.addEventListener('contextmenu', (event) => {
 
     if (clickedCard && clickedCard.type === 'field' && fieldCards[clickedCard.index]) {
         showContextMenu(event.clientX, event.clientY, 'field', clickedCard.index);
-    } else if (clickedCard && clickedCard.type === 'aside' && asideCards.length > 0) {
-        showContextMenu(event.clientX, event.clientY, 'aside', 0);
+    } else if (clickedCard && clickedCard.type === 'aside' && clickedCard.index >= 0) {
+        showContextMenu(event.clientX, event.clientY, 'aside', clickedCard.index);
     }
 });
 
@@ -778,7 +855,7 @@ function showContextMenu(mouseX, mouseY, type, index) {
     menu.style.padding = '5px';
     menu.style.zIndex = '2000';
     menu.style.boxShadow = '2px 2px 5px rgba(0,0,0,0.5)';
-
+    //right_menu
     if (type === 'field') {
         // Options for field cards
         const toHandBtn = document.createElement('button');
@@ -804,6 +881,17 @@ function showContextMenu(mouseX, mouseY, type, index) {
         };
         menu.appendChild(toNullBtn);
 
+        const toAsideBtn = document.createElement('button');
+        toAsideBtn.textContent = 'To Aside';
+        toAsideBtn.onclick = () => {
+            const card = fieldCards[index];
+            fieldCards[index] = null;
+            asideCards.push(card);
+            render();
+            hideContextMenu();
+        };
+        menu.appendChild(toAsideBtn);
+
         const tapBtn = document.createElement('button');
         tapBtn.textContent = fieldCards[index].tapped ? 'Untap' : 'Tap';
         tapBtn.onclick = () => {
@@ -815,7 +903,7 @@ function showContextMenu(mouseX, mouseY, type, index) {
     } else if (type === 'aside') {
         // Options for aside cards
         const tapBtn = document.createElement('button');
-        tapBtn.textContent = asideCards[index].tapped ? 'Untap Top Card' : 'Tap Top Card';
+        tapBtn.textContent = asideCards[index].tapped ? 'Untap' : 'Tap';
         tapBtn.onclick = () => {
             asideCards[index].tapped = !asideCards[index].tapped;
             render();
