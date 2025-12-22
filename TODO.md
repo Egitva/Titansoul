@@ -1,3 +1,0 @@
-- [x] Add showChangeImageModal function to display lead card images and allow selection to change aside card's id
-- [x] Update canvas click event listener to call showChangeImageModal instead of showAsideModal for aside area clicks
-- [x] Update context menu for aside cards to show "Tap" or "Untap" for the specific card instead of "Top Card"
