@@ -1,40 +1,22 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
-	</style>
-    <meta charset ='utf-8'>
-	<link rel='stylesheet' href='style.css'>
-	<title>Titansoul</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deck Builder</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<header>
-	<div class='logo-image'>
-		<a href="index.html">
-			<img src="images/LogoTS.png" class="alignleft" alt="RIGHT photo" width="400">
-		</a>
-	</div>
-	<div>
-		<a class="title2" href="facts.html">Факты</a>
-	</div>
-	<div>
-		<a class="title2" href="characterfind.html">Кто</a>
-	</div>
-</header>
 <body>
-	<div id="catalog">
-	</div>
-<!--
-	<button id="draw" style="float: left;">DRAW</button>
-	<button id="choose" style="float: left;">CHOOSE</button>
-	<div id="cards" style="display: flex; justify-content: center; align-items: center;">
-	</div>
-	<div id="aside" style="float: left;"> 
-	</div>
--->
-	<script src="allCards.js"></script>
+    <h1>Deck Builder</h1>
+    <div id="available-cards" class="card-container">
+        <!-- Available cards will be displayed here -->
+    </div>
+    <h2>Your Deck</h2>
+    <div id="deck-cards" class="card-container">
+        <!-- Deck cards will be displayed here -->
+    </div>
+    <p id="deck-count">Cards: 0/30</p>
+    <button onclick="saveDeck()">Save Deck</button>
+    <script src="allCards.js"></script>
 </body>
-<footer>
-	<div id="opis">
-	</div>
-</footer>
 </html>
