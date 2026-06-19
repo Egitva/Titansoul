@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yu-Gi-Oh! DB - База карт</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fa-solid fa-dragon"></i>
+                <span>TITANSOUL <span class="text-yellow">Card Game</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="active">База карт</a>
+                <a href="deck.html">Создать колоду</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">База данных карт</h1>
+
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Поиск карты (например: Blue-Eyes White Dragon)">
+            <button onclick="searchCards()">
+                <i class="fa-solid fa-magnifying-glass"></i> Найти
+            </button>
+        </div>
+
+        <div class="filters">
+            <select id="type-filter">
+                <option value="">Все типы</option>
+                <option value="Monster">Монстры</option>
+                <option value="Spell">Заклинания</option>
+                <option value="Trap">Ловушки</option>
+            </select>
+            <button onclick="clearFilters()" class="btn-secondary">Сбросить</button>
+        </div>
+
+        <div id="cards-grid" class="cards-grid"></div>
+    </div>
+
+    <!-- Модальное окно -->
+    <div id="card-modal" class="modal">
+        <div class="modal-content">
+            <div id="modal-body"></div>
+            <div class="modal-footer">
+                <button onclick="closeModal()" class="btn-trirdary">Закрыть</button>
+                <!-- <button onclick="addCurrentToDeckFromModal()" class="btn-primary">Добавить в колоду</button> -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

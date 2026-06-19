@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yu-Gi-Oh! DB - Создать колоду</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fa-solid fa-dragon"></i>
+                <span>YU-GI-OH! <span class="text-yellow">DB</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">База карт</a>
+                <a href="deck.html" class="active">Создать колоду</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="deck-builder">
+            <!-- Поиск карт -->
+            <div class="search-panel">
+                <h2>Поиск карт</h2>
+                <input type="text" id="deck-search-input" placeholder="Название карты..." onkeyup="if(event.key==='Enter') searchForDeck()">
+                <div id="deck-search-results" class="search-results"></div>
+            </div>
+
+            <!-- Колоды -->
+            <div class="deck-panel">
+                <div class="deck-header">
+                    <h2>Твоя колода</h2>
+                    <div class="deck-actions">
+                        <button onclick="exportToPDF()" class="btn-success">
+                            <i class="fa-solid fa-file-pdf"></i> PDF
+                        </button>
+                        <button onclick="clearDeck()" class="btn-danger">
+                            <i class="fa-solid fa-trash"></i> Очистить
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Настройки PDF -->
+                <div class="pdf-settings">
+                    <h3>Настройки PDF</h3>
+                    <div class="margin-grid">
+                        <div>
+                            <label>Сверху (мм)</label>
+                            <input type="number" id="margin-top" value="10">
+                        </div>
+                        <div>
+                            <label>Снизу (мм)</label>
+                            <input type="number" id="margin-bottom" value="10">
+                        </div>
+                        <div>
+                            <label>По бокам (мм)</label>
+                            <input type="number" id="margin-side" value="8">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="deck-section">
+                    <h3>Основная колода <span id="main-count">(0/40)</span></h3>
+                    <div id="main-deck" class="deck-grid"></div>
+                </div>
+
+                <div class="deck-section">
+                    <h3>Экстра колода <span id="extra-count">(0/15)</span></h3>
+                    <div id="extra-deck" class="deck-grid"></div>
+                </div>
+
+                <div class="deck-section">
+                    <h3>Сайд-дек <span id="side-count">(0/15)</span></h3>
+                    <div id="side-deck" class="deck-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/deck.js"></script>
+</body>
+</html>
