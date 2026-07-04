@@ -1,51 +1,66 @@
 let currentModalCard = null;
 
-async function searchCards() {
-    const query = document.getElementById('search-input').value.trim();
-    const grid = document.getElementById('cards-grid');
-    grid.innerHTML = '<p>Загрузка...</p>';
+const DB_REPO = "Egitva/TSDB_CG";
+const DB_URL = `https://raw.githubusercontent.com/${DB_REPO}/main/data/cards.db`;
+let allCards = [];
 
-    let url = 'http://localhost:4000/api/data';
-    if (query) url += `?name=${encodeURIComponent(query)}`;
+
+async function loadCards() {
+    const grid = document.getElementById('cards-grid');
+    grid.innerHTML = '<p>Загрузка базы карт...</p>';
 
     try {
-        const res = await fetch(url);
-        const data = await res.json();
-        renderCards(data.data || [], grid);
+        const res = await fetch(DB_URL);
+        const json = await res.json();
+        allCards = json.data || [];
+        
+        renderCards(allCards, grid); // показываем все карты сразу
     } catch (e) {
-        grid.innerHTML = '<p style="color:red">Ошибка загрузки</p>';
+        grid.innerHTML = '<p style="color:red">Ошибка загрузки базы карт</p>';
+        console.error(e);
     }
 }
 
-function renderCards(cards, container) {
-    container.innerHTML = ''; // очищаем grid
 
+// Основная функция поиска
+function searchCards() {
+    const query = document.getElementById('search-input').value.trim().toLowerCase();
+    const grid = document.getElementById('cards-grid');
+    if (!allCards.length) {
+        grid.innerHTML = '<p>База карт ещё не загружена</p>';
+        return;
+    }
+    let filtered = allCards;
+    if (query) {
+        filtered = allCards.filter(card => 
+            card.name && card.name.toLowerCase().includes(query)
+        );
+    }
+    renderCards(filtered, grid);
+}
+
+
+// Функция рендера (оставляем почти как было)
+function renderCards(cards, container) {
+    container.innerHTML = '';
     if (!cards || cards.length === 0) {
         container.innerHTML = '<p>Ничего не найдено</p>';
         return;
     }
-
     cards.forEach(card => {
         const div = document.createElement('div');
         div.className = 'card';
-
-        // Важно: добавляем базовый URL, потому что в JSON лежит относительный путь
         let imageUrl = card.card_images?.[0]?.image_url || '';
-        
         if (imageUrl && !imageUrl.startsWith('http')) {
-            imageUrl = 'http://localhost:4000' + imageUrl;
+            imageUrl = `https://raw.githubusercontent.com/${DB_REPO}/main/` + imageUrl;
         }
-
         div.innerHTML = `
             <img src="${imageUrl || 'https://via.placeholder.com/200'}" 
                  alt="${card.name || 'Без названия'}"
                  onerror="this.src='https://via.placeholder.com/200'">
             <h3>${card.name || 'Без названия'}</h3>
         `;
-
-        // Клик по карточке
         div.onclick = () => showCardModal(card);
-
         container.appendChild(div);
     });
 }
@@ -58,7 +73,7 @@ function showCardModal(card) {
     let img = card.card_images?.[0]?.image_url || '';
         
     if (img && !img.startsWith('http')) {
-        img = 'http://localhost:4000' + img;
+        img = `https://raw.githubusercontent.com/${DB_REPO}/main/` + img;
     }
     
     body.innerHTML = `
@@ -90,5 +105,6 @@ function clearFilters() {
 
 // Загрузка при старте
 window.onload = () => {
-    searchCards();
+    loadCards();
+    //searchCards();
 };
