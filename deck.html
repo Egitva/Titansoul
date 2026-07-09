@@ -25,6 +25,7 @@
     .valid { color: #4ade80; }
     .invalid { color: #f87171; }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -72,6 +73,7 @@
     <div style="margin-top: 20px;">
       <button class="btn" onclick="exportDeck()">Экспорт колоды (JSON)</button>
       <button class="btn" onclick="importDeck()">Импорт колоды</button>
+      <button class="btn" onclick="exportProxyPDF()" style="background:#4ade80; color:black;">Экспорт PDF (Прокси)</button>
       <input type="file" id="import-file" accept=".json" style="display:none" onchange="handleImport(event)">
     </div>
   </div>
@@ -242,7 +244,6 @@ function importDeck() {
   document.getElementById('import-file').click();
 }
 
-
 function handleImport(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -282,7 +283,103 @@ function handleImport(e) {
   reader.readAsText(file);
 }
 
+async function exportProxyPDF() {
+    const totalCards = deck.main.length + deck.extra.length + deck.leader.length;
+    if (totalCards === 0) {
+        alert("Колода пуста! Добавьте карты перед экспортом.");
+        return;
+    }
 
+    if (!confirm(`Создать PDF с ${totalCards} картами?`)) {
+        return;
+    }
+
+    // Проверяем наличие jsPDF
+    if (typeof window.jspdf === 'undefined') {
+        alert("jsPDF не загружен. Добавьте библиотеку (см. инструкцию ниже).");
+        return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+    });
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    const cardWidth = 57;   // мм — стандарт Yu-Gi-Oh
+    const cardHeight = 86;  // мм
+    const margin = 8;
+    const spacingX = 4;
+    const spacingY = 6;
+    const cardsPerRow = 3;
+
+    let x = margin;
+    let y = margin;
+    let printed = 0;
+
+    const allCards = [...deck.main, ...deck.extra, ...deck.leader];
+
+    for (let card of allCards) {
+        let imgUrl = card.card_images?.[0]?.image_url || '';
+        if (imgUrl && !imgUrl.startsWith('http')) {
+            imgUrl = `https://raw.githubusercontent.com/${DB_REPO}/main/` + imgUrl;
+        }
+
+        if (!imgUrl) continue;
+
+        try {
+            const imgData = await getImageAsBase64(imgUrl);
+            pdf.addImage(imgData, 'JPEG', x, y, cardWidth, cardHeight);
+
+            // Название карты под прокси (мелко)
+            pdf.setFontSize(7);
+            pdf.setTextColor(80);
+            pdf.text(card.name.substring(0, 28), x + cardWidth/2, y + cardHeight + 4, { align: "center" });
+
+            printed++;
+            x += cardWidth + spacingX;
+
+            if (printed % cardsPerRow === 0) {
+                x = margin;
+                y += cardHeight + spacingY;
+            }
+
+            // Новая страница
+            if (y + cardHeight > pageHeight - margin) {
+                pdf.addPage();
+                x = margin;
+                y = margin;
+            }
+        } catch (err) {
+            console.warn("Не удалось загрузить изображение:", card.name);
+        }
+    }
+
+    pdf.save(`proxies_${new Date().toISOString().slice(0,10)}.pdf`);
+    alert(`PDF успешно создан! (${printed} карт)`);
+}
+
+// Вспомогательная функция
+function getImageAsBase64(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            resolve(canvas.toDataURL('image/jpeg', 0.9));
+        };
+        img.onerror = () => reject(new Error("Image load failed"));
+        img.src = url;
+    });
+}
 // Запуск
 window.onload = loadCards;
 </script>
