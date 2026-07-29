@@ -17,6 +17,7 @@
             <div class="nav-links">
                 <a href="index.html" class="active">База карт</a>
                 <a href="deck.html">Создать колоду</a>
+                <a href="playtest.html">Playtest</a>
             </div>
         </div>
     </nav>
@@ -25,20 +26,10 @@
         <h1 class="page-title">База данных карт</h1>
 
         <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Поиск карты (например: Blue-Eyes White Dragon)">
+            <input type="text" id="search-input" placeholder="Поиск карты">
             <button onclick="searchCards()">
                 <i class="fa-solid fa-magnifying-glass"></i> Найти
             </button>
-        </div>
-
-        <div class="filters">
-            <select id="type-filter">
-                <option value="">Все типы</option>
-                <option value="Monster">Монстры</option>
-                <option value="Spell">Заклинания</option>
-                <option value="Trap">Ловушки</option>
-            </select>
-            <button onclick="clearFilters()" class="btn-secondary">Сбросить</button>
         </div>
 
         <div id="cards-grid" class="cards-grid"></div>

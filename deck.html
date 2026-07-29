@@ -73,6 +73,7 @@
     <div style="margin-top: 20px;">
       <button class="btn" onclick="exportDeck()">Экспорт колоды (JSON)</button>
       <button class="btn" onclick="importDeck()">Импорт колоды</button>
+      <button class="btn" onclick="saveDeckToLocal()">Импорт колоды</button>
       <button class="btn" onclick="exportProxyPDF()" style="background:#4ade80; color:black;">Экспорт PDF (Прокси)</button>
       <input type="file" id="import-file" accept=".json" style="display:none" onchange="handleImport(event)">
     </div>
@@ -379,6 +380,14 @@ function getImageAsBase64(url) {
         img.onerror = () => reject(new Error("Image load failed"));
         img.src = url;
     });
+}
+
+function saveDeckToLocal() {
+  localStorage.setItem('currentDeck', JSON.stringify({
+    main: deck.main.map(c => c.id),
+    extra: deck.extra.map(c => c.id),
+    leader: deck.leader.map(c => c.id)
+  }));
 }
 // Запуск
 window.onload = loadCards;
