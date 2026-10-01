@@ -81,7 +81,6 @@ body {
     font-size: 1.1rem;
     background: #1f1f1f;
     border: 2px solid #333;
-    border-radius: 12px;
     color: white;
 }
 
@@ -91,7 +90,6 @@ body {
     color: black;
     font-weight: 600;
     border: none;
-    border-radius: 12px;
     cursor: pointer;
 }
 
@@ -104,7 +102,6 @@ body {
 
 .card {
     background: #1a1a1a;
-    border-radius: 16px;
     overflow: hidden;
     transition: all 0.3s;
     cursor: pointer;
@@ -140,7 +137,6 @@ body {
 .search-panel, .deck-panel {
     background: #111;
     padding: 1.5rem;
-    border-radius: 16px;
     border: 1px solid #222;
 }
 
@@ -151,7 +147,6 @@ body {
     min-height: 140px;
     background: #1a1a1a;
     padding: 1rem;
-    border-radius: 12px;
     border: 2px dashed #444;
 }
 
@@ -183,7 +178,6 @@ body {
     background: #1a1a1a;
     max-width: 500px;
     width: 90%;
-    border-radius: 20px;
     overflow: hidden;
 }
 
@@ -191,18 +185,42 @@ body {
 .btn-primary, .btn-secondary, .btn-success, .btn-danger {
     padding: 10px 20px;
     border: none;
-    border-radius: 10px;
     font-weight: 600;
     cursor: pointer;
 }
 .btn-trirdary{
     padding: 10px 20px;
     border: none;
-    border-radius: 10px;
     font-weight: 600;
     cursor: pointer;
     float: right;
 }
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filters input,
+.filters select {
+  padding: 10px 14px;
+  border: 1px solid #334;
+  background: #000000;
+  color: #ddd;
+  font-size: 15px;
+}
+
+.filters button {
+  padding: 10px 16px;
+  background: #e94560;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
 
 .btn-primary { background: #facc15; color: black; }
 .btn-secondary { background: #333; color: white; }

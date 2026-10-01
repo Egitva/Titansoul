@@ -25,17 +25,22 @@ async function loadCards() {
 // Основная функция поиска
 function searchCards() {
     const query = document.getElementById('search-input').value.trim().toLowerCase();
+    const typeFilter = document.getElementById('filter-type').value;
+    const colorFilter = document.getElementById('filter-color').value;
     const grid = document.getElementById('cards-grid');
     if (!allCards.length) {
         grid.innerHTML = '<p>База карт ещё не загружена</p>';
         return;
     }
-    let filtered = allCards;
-    if (query) {
-        filtered = allCards.filter(card => 
-            card.name && card.name.toLowerCase().includes(query)
-        );
-    }
+    let filtered = allCards.filter(card => {
+        // Поиск по имени
+        const nameMatch = !query || (card.name && card.name.toLowerCase().includes(query));
+        // Фильтр по типу
+        const typeMatch = !typeFilter || card.type === typeFilter;
+        // Фильтр по цвету (attribute)
+        const colorMatch = !colorFilter || card.attribute === colorFilter;
+        return nameMatch && typeMatch && colorMatch;
+    });
     renderCards(filtered, grid);
 }
 
@@ -100,6 +105,8 @@ function addCurrentToDeckFromModal() {
 
 function clearFilters() {
     document.getElementById('search-input').value = '';
+    document.getElementById('filter-type').value = '';
+    document.getElementById('filter-color').value = '';
     searchCards();
 }
 

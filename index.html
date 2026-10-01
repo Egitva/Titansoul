@@ -11,7 +11,6 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <i class="fa-solid fa-dragon"></i>
                 <span>TITANSOUL <span class="text-yellow">Card Game</span></span>
             </div>
             <div class="nav-links">
@@ -23,14 +22,41 @@
     </nav>
 
     <div class="container">
-        <h1 class="page-title">База данных карт</h1>
+        <div class="filters">
+  <input type="text" id="search-input" placeholder="Поиск по имени..." onkeyup="searchCards()">
+  
+  <select id="filter-type" onchange="searchCards()">
+    <option value="">Все типы</option>
+    <option value="Тенто">Тенто</option>
+    <option value="Лидер">Лидер</option>
+    <option value="ALT">ALT</option>
+    <option value="Overlay">Overlay</option>
+    <option value="Dark">Dark</option>
+    <option value="Проклятие">Проклятие</option>
+    <option value="Фея">Фея</option>
+    <option value="Растение">Растение</option>
+    <option value="Чародей">Чародей</option>
+    <option value="Маг">Маг</option>
+    <option value="Демон">Демон</option>
+    <option value="Дух">Дух</option>
+    <option value="Ангел">Ангел</option>
+    <option value="Бастион">Бастион</option>
+  </select>
 
-        <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Поиск карты">
-            <button onclick="searchCards()">
-                <i class="fa-solid fa-magnifying-glass"></i> Найти
-            </button>
-        </div>
+
+  <select id="filter-color" onchange="searchCards()">
+    <option value="">Все цвета</option>
+    <option value="R">R (Красный)</option>
+    <option value="W">W (Белый)</option>
+    <option value="Y">Y (Жёлтый)</option>
+    <option value="B">B (Синий)</option>
+    <option value="G">G (Зелёный)</option>
+    <option value="D">D (Черный)</option>
+  </select>
+
+
+  <button onclick="clearFilters()">Сбросить</button>
+</div>
 
         <div id="cards-grid" class="cards-grid"></div>
     </div>

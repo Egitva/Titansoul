@@ -4,39 +4,60 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Deck Builder</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #1a1a2e; color: #ddd; }
-    .container { display: flex; height: 100vh; }
-    .sidebar { width: 320px; background: #16213e; padding: 15px; overflow-y: auto; border-right: 2px solid #0f3460; }
-    .main { flex: 1; padding: 15px; overflow-y: auto; }
-    .deck-area { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
-    .deck { background: #0f3460; padding: 15px; border-radius: 8px; width: 380px; }
-    .deck h2 { margin: 0 0 10px 0; color: #ffd700; }
-    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; }
-    .card { cursor: pointer; transition: 0.2s; border-radius: 6px; overflow: hidden; background: #222; }
-    .card:hover { transform: scale(1.08); box-shadow: 0 0 15px #ffd700; }
-    .card img { width: 100%; height: auto; }
-    .card-name { text-align: center; font-size: 12px; padding: 4px; background: rgba(0,0,0,0.7); }
-    .count { font-weight: bold; color: #ffd700; }
-    .btn { padding: 8px 16px; background: #e94560; color: white; border: none; border-radius: 4px; cursor: pointer; }
-    .btn:hover { background: #ff6b7a; }
-    .search { width: 100%; padding: 10px; margin-bottom: 15px; font-size: 16px; }
-    .stats { font-size: 14px; margin: 10px 0; }
-    .valid { color: #4ade80; }
-    .invalid { color: #f87171; }
-  </style>
+  <link rel="stylesheet" href="css/style_deck.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-
-
+  <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span>TITANSOUL <span class="text-yellow">Card Game</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">База карт</a>
+                <a href="deck.html" class="active">Создать колоду</a>
+                <a href="playtest.html">Playtest</a>
+            </div>
+        </div>
+    </nav>
 <div class="container">
   <!-- Левая панель - все карты -->
   <div class="sidebar">
     <h2>Все карты</h2>
-    <input type="text" id="search" class="search" placeholder="Поиск карты..." onkeyup="filterCards()">
-    
-    <div id="all-cards" class="card-grid"></div>
+<input type="text" id="search-input" placeholder="Поиск по имени..." onkeyup="searchCards()">
+  
+  <select id="filter-type" onchange="searchCards()">
+    <option value="">Все типы</option>
+    <option value="Тенто">Тенто</option>
+    <option value="Лидер">Лидер</option>
+    <option value="ALT">ALT</option>
+    <option value="Overlay">Overlay</option>
+    <option value="Dark">Dark</option>
+    <option value="Проклятие">Проклятие</option>
+    <option value="Фея">Фея</option>
+    <option value="Растение">Растение</option>
+    <option value="Чародей">Чародей</option>
+    <option value="Маг">Маг</option>
+    <option value="Демон">Демон</option>
+    <option value="Дух">Дух</option>
+    <option value="Ангел">Ангел</option>
+    <option value="Бастион">Бастион</option>
+  </select>
+
+
+  <select id="filter-color" onchange="searchCards()">
+    <option value="">Все цвета</option>
+    <option value="R">R (Красный)</option>
+    <option value="W">W (Белый)</option>
+    <option value="Y">Y (Жёлтый)</option>
+    <option value="B">B (Синий)</option>
+    <option value="G">G (Зелёный)</option>
+    <option value="D">D (Черный)</option>
+  </select>
+
+
+  <button onclick="clearFilters()">Сбросить</button>
+  <div id="all-cards" class="card-grid"></div>
   </div>
 
 
@@ -73,326 +94,12 @@
     <div style="margin-top: 20px;">
       <button class="btn" onclick="exportDeck()">Экспорт колоды (JSON)</button>
       <button class="btn" onclick="importDeck()">Импорт колоды</button>
-      <button class="btn" onclick="saveDeckToLocal()">Импорт колоды</button>
+      <button class="btn" onclick="saveDeckToLocal()">Сохранить колоду для теста</button>
       <button class="btn" onclick="exportProxyPDF()" style="background:#4ade80; color:black;">Экспорт PDF (Прокси)</button>
       <input type="file" id="import-file" accept=".json" style="display:none" onchange="handleImport(event)">
     </div>
   </div>
 </div>
-
-
-<script>
-// === ДАННЫЕ ===
-let allCards = [];
-let deck = {
-  main: [],
-  extra: [],
-  leader: []
-};
-const DB_REPO = "Egitva/TSDB_CG";
-const DB_URL = `https://raw.githubusercontent.com/${DB_REPO}/main/data/cards.db`;
-
-
-// Загрузка карт
-async function loadCards() {
-  try {
-    const res = await fetch(DB_URL); // или укажи прямую ссылку
-    const json = await res.json();
-    allCards = json.data || [];
-    renderAllCards(allCards);
-  } catch(e) {
-    alert("Ошибка загрузки карт");
-    console.error(e);
-  }
-}
-
-
-// Рендер всех карт
-function renderAllCards(cards) {
-  const container = document.getElementById('all-cards');
-  container.innerHTML = '';
-
-
-  cards.forEach(card => {
-    const div = createCardElement(card, () => addToDeck(card));
-    container.appendChild(div);
-  });
-}
-
-
-// Фильтр
-function filterCards() {
-  const query = document.getElementById('search').value.toLowerCase().trim();
-  const filtered = allCards.filter(card => 
-    card.name.toLowerCase().includes(query)
-  );
-  renderAllCards(filtered);
-}
-
-
-// Создание элемента карты
-function createCardElement(card, onClick) {
-  const div = document.createElement('div');
-  div.className = 'card';
-  
-  let imgUrl = card.card_images?.[0]?.image_url || '';
-  console.log(imgUrl);
-  if (imgUrl && !imgUrl.startsWith('http')) {
-    imgUrl = `https://raw.githubusercontent.com/${DB_REPO}/main` + imgUrl;
-    console.log(imgUrl);
-  }
-
-
-  div.innerHTML = `
-    <img src="${imgUrl}" alt="${card.name}">
-    <div class="card-name">${card.name}</div>
-  `;
-  div.onclick = onClick;
-  return div;
-}
-
-
-// Добавление в колоду
-function addToDeck(card) {
-  if (card.type === "Лидер") {
-    if (deck.leader.length >= 2) {
-      alert("В Лидерской зоне может быть только 2 карты!");
-      return;
-    }
-    deck.leader.push(card);
-    renderDeck('leader');
-  } 
-  else if (card.type === "ALT" || card.type === "Overlay") {
-    deck.extra.push(card);
-    renderDeck('extra');
-  } 
-  else {
-    if (deck.main.length >= 100) {
-      alert("Main Deck максимум 100 карт!");
-      return;
-    }
-    deck.main.push(card);
-    renderDeck('main');
-  }
-}
-
-
-// Рендер конкретной колоды
-function renderDeck(type) {
-  let container, cards, countEl;
-  
-  if (type === 'main') {
-    container = document.getElementById('main-deck');
-    cards = deck.main;
-    countEl = document.getElementById('main-count');
-  } else if (type === 'extra') {
-    container = document.getElementById('extra-deck');
-    cards = deck.extra;
-    countEl = document.getElementById('extra-count');
-  } else {
-    container = document.getElementById('leader-deck');
-    cards = deck.leader;
-    countEl = document.getElementById('leader-count');
-  }
-
-
-  container.innerHTML = '';
-  cards.forEach((card, index) => {
-    const div = createCardElement(card, () => removeFromDeck(type, index));
-    container.appendChild(div);
-  });
-
-
-  countEl.textContent = `(${cards.length}/ ${type === 'leader' ? 2 : 100})`;
-}
-
-
-// Удаление из колоды
-function removeFromDeck(type, index) {
-  deck[type].splice(index, 1);
-  renderDeck(type);
-}
-
-
-function clearDeck(type) {
-  if (confirm(`Очистить ${type === 'leader' ? 'Лидерскую зону' : type + ' Deck'}?`)) {
-    deck[type] = [];
-    renderDeck(type);
-  }
-}
-
-
-// Экспорт
-function exportDeck() {
-  const deckData = {
-    main: deck.main.map(c => c.id),
-    extra: deck.extra.map(c => c.id),
-    leader: deck.leader.map(c => c.id),
-    version: "1.0"
-  };
-  
-  const blob = new Blob([JSON.stringify(deckData, null, 2)], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'my-deck.json';
-  a.click();
-}
-
-
-// Импорт
-function importDeck() {
-  document.getElementById('import-file').click();
-}
-
-function handleImport(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  
-  const reader = new FileReader();
-  reader.onload = function(ev) {
-    try {
-      const data = JSON.parse(ev.target.result);
-      
-      deck.main = [];
-      deck.extra = [];
-      deck.leader = [];
-
-
-      data.main?.forEach(id => {
-        const card = allCards.find(c => c.id === id);
-        if (card) deck.main.push(card);
-      });
-      data.extra?.forEach(id => {
-        const card = allCards.find(c => c.id === id);
-        if (card) deck.extra.push(card);
-      });
-      data.leader?.forEach(id => {
-        const card = allCards.find(c => c.id === id);
-        if (card) deck.leader.push(card);
-      });
-
-
-      renderDeck('main');
-      renderDeck('extra');
-      renderDeck('leader');
-      alert('Колода успешно загружена!');
-    } catch(err) {
-      alert('Ошибка импорта колоды');
-    }
-  };
-  reader.readAsText(file);
-}
-
-async function exportProxyPDF() {
-    const totalCards = deck.main.length + deck.extra.length + deck.leader.length;
-    if (totalCards === 0) {
-        alert("Колода пуста! Добавьте карты перед экспортом.");
-        return;
-    }
-
-    if (!confirm(`Создать PDF с ${totalCards} картами?`)) {
-        return;
-    }
-
-    // Проверяем наличие jsPDF
-    if (typeof window.jspdf === 'undefined') {
-        alert("jsPDF не загружен. Добавьте библиотеку (см. инструкцию ниже).");
-        return;
-    }
-
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4'
-    });
-
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-
-    const cardWidth = 57;   // мм — стандарт Yu-Gi-Oh
-    const cardHeight = 86;  // мм
-    const margin = 8;
-    const spacingX = 4;
-    const spacingY = 6;
-    const cardsPerRow = 3;
-
-    let x = margin;
-    let y = margin;
-    let printed = 0;
-
-    const allCards = [...deck.main, ...deck.extra, ...deck.leader];
-
-    for (let card of allCards) {
-        let imgUrl = card.card_images?.[0]?.image_url || '';
-        if (imgUrl && !imgUrl.startsWith('http')) {
-            imgUrl = `https://raw.githubusercontent.com/${DB_REPO}/main/` + imgUrl;
-        }
-
-        if (!imgUrl) continue;
-
-        try {
-            const imgData = await getImageAsBase64(imgUrl);
-            pdf.addImage(imgData, 'JPEG', x, y, cardWidth, cardHeight);
-
-            // Название карты под прокси (мелко)
-            pdf.setFontSize(7);
-            pdf.setTextColor(80);
-            pdf.text(card.name.substring(0, 28), x + cardWidth/2, y + cardHeight + 4, { align: "center" });
-
-            printed++;
-            x += cardWidth + spacingX;
-
-            if (printed % cardsPerRow === 0) {
-                x = margin;
-                y += cardHeight + spacingY;
-            }
-
-            // Новая страница
-            if (y + cardHeight > pageHeight - margin) {
-                pdf.addPage();
-                x = margin;
-                y = margin;
-            }
-        } catch (err) {
-            console.warn("Не удалось загрузить изображение:", card.name);
-        }
-    }
-
-    pdf.save(`proxies_${new Date().toISOString().slice(0,10)}.pdf`);
-    alert(`PDF успешно создан! (${printed} карт)`);
-}
-
-// Вспомогательная функция
-function getImageAsBase64(url) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = "Anonymous";
-        img.onload = () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-            resolve(canvas.toDataURL('image/jpeg', 0.9));
-        };
-        img.onerror = () => reject(new Error("Image load failed"));
-        img.src = url;
-    });
-}
-
-function saveDeckToLocal() {
-  localStorage.setItem('currentDeck', JSON.stringify({
-    main: deck.main.map(c => c.id),
-    extra: deck.extra.map(c => c.id),
-    leader: deck.leader.map(c => c.id)
-  }));
-}
-// Запуск
-window.onload = loadCards;
-</script>
-
-
+<script src="js/deck.js"></script>
 </body>
 </html>
